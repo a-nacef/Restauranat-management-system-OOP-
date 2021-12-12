@@ -29,6 +29,8 @@ public class Commande {
 		this.heure_commande = heure_commande;
 		this.mode_pay = mode_pay;
 		this.qi_client = qi_client;
+
+		//Créer les lignes commandes
         System.out.println("Nombre de plats?:");
         nb = sc.nextInt();
           for (int i = 0; i < nb ; i++) {
@@ -68,7 +70,7 @@ public class Commande {
 	}
 
 	public LocalTime getHeure_commande() {
-		return heure_commande;
+		return this.heure_commande;
 	}
 
 	public void setHeure_commande(LocalTime heure_commande) {

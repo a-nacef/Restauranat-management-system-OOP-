@@ -3,7 +3,9 @@ package com.company;
 import javafx.scene.control.Tab;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Gestionnaire {
@@ -107,18 +109,21 @@ public class Gestionnaire {
 		Integer cd;
 		String mode;
 		Commande temp_cmd;
+		Table tb;
 		System.out.println("Code Table?");
 		cd = sc.nextInt();
+		tb = rech_table(cd);
 		System.out.println("Mode paiement?");
 		mode = sc.nextLine();
+		tb.setReserve(true);
 		if (Liste_Commandes.containsKey(cd)){
-			temp_cmd = new Commande(rech_table(cd), LocalDate.now(), LocalTime.now(), mode);
+			temp_cmd = new Commande(tb, LocalDate.now(), LocalTime.now(), mode);
 			Liste_Commandes.put(cd, temp_cmd);
 		}
 		else{
 			liste_tables.add(new Table());
 			cd = liste_tables.get(liste_tables.size()).getId();
-			temp_cmd = new Commande(rech_table(cd), LocalDate.now(), LocalTime.now(), mode);
+			temp_cmd = new Commande(tb, LocalDate.now(), LocalTime.now(), mode);
 			Liste_Commandes.put(cd,temp_cmd);
 		}
 	}
@@ -142,7 +147,7 @@ public class Gestionnaire {
 		System.out.println("Saisir le code de la table");
 		code = sc.nextInt();
 		Liste_Commandes.remove(code);
-		rech_table(code).setReserve(true);
+		rech_table(code).setReserve(false);
 	}
 	
 	// afficher la recette journali�re
@@ -159,12 +164,40 @@ public class Gestionnaire {
 	
 	// afficher la recette journali�re durant une periode (date debut / date fin )
 	//puis le chiffre d'affaires de cette periode 
-	public void affiche_recette_dans_periode()
+	public double affiche_recette_dans_periode()
 	{
+		LocalTime t1;
+		LocalTime t2;
+		double result = 0;
+		do {
+			System.out.println("Saisir la borne inférieure:");
+			t1 = lire_temps();
+			System.out.println("Saisir la borne supérieure:");
+			t2 = lire_temps();
+		}while (!t1.isBefore(t2));
+		for(Commande cmd: Liste_Commandes.values()){
+			if (dans_intervalle(t1,t2,cmd.getHeure_commande())){
+				result += cmd.full_sum();
+			}
+		}
+		return result;
 		
 	}
+
+	private boolean dans_intervalle(LocalTime t1, LocalTime t2, LocalTime date){
+			return date.isAfter(t1) && date.isBefore(t2);
+	}
+
+	private LocalTime lire_temps(){
+		    DateTimeFormatter fmt;
+			String time;
+			System.out.println("Saisir l'heure dans le format HH:MM");
+			time = sc.nextLine();
+			return LocalTime.parse(time+":00", DateTimeFormatter.ISO_TIME);
+	}
+
+
 	//afficher le plat le plus command�
-	
 	public Plat plat_pref()
 	{
 		ArrayList<Ligne_commande>  temp_lc = new ArrayList<Ligne_commande>();
@@ -172,7 +205,6 @@ public class Gestionnaire {
 		for (Commande temp: Liste_Commandes.values()){
 			temp_lc.add(temp.max_plat());
 		}
-
 		max_ligne = temp_lc.stream().reduce(null,(a, b)->{
 			if (a.getQuantity()>=b.getQuantity()){
 				return a;

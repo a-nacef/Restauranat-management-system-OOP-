@@ -11,10 +11,8 @@ public class Plat {
 				private String catégorie;
 				private double prix ;
 	//le constructeur para
-
-
 	public Plat(String code, String nom, double prix, String catégorie) {
-				    ordre_inc += 1 ;
+				    this.ordre_inc += 1 ;
 					this.code = code;
 					this.nom = nom;
 					this.prix = prix;
@@ -25,6 +23,7 @@ public class Plat {
 				// for testing 
 				public Plat()
 				{
+					this.ordre_inc+=1;
 					System.out.println(" code Plat : ");
 					this.code = sc.next();
 					System.out.println(" Nom Plat : ");
