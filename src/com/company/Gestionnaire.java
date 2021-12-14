@@ -1,7 +1,6 @@
 package com.company;
 
 import javafx.scene.control.Tab;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -9,12 +8,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Gestionnaire {
-	static Scanner sc = new Scanner(System.in);
-	//ArrayList
+
+	//Attributs
+	  static Scanner sc = new Scanner(System.in);
 	  static ArrayList<Plat> liste_plat = new ArrayList<Plat>();
 	  public static HashMap<Integer, Commande> Liste_Commandes = new HashMap<Integer, Commande>();
 	  public static ArrayList<Table> liste_tables = new ArrayList<Table>();
 
+
+
+	  //Methodes
 		public static Plat rech_plat(String code) {
 			for (Plat p : liste_plat){
 				if (p.getCode() == code) {
@@ -33,6 +36,7 @@ public class Gestionnaire {
 			{
 				liste_plat.add(new Plat());
 				System.out.println("Plat ajouté.");
+				break;
 			}
 			else{
 				System.out.println("Le plat éxiste, veuillez entrer un code valide ou bien 'Q' pour quitter ");
@@ -73,11 +77,8 @@ public class Gestionnaire {
 				}
 			}
 		}
-
-
 	}
 	// afficher liste des plats par categorie et ordonnee par refrence
-	
 	public void listcatref()
 	{
 		ArrayList<Plat> temp = new ArrayList<Plat>();
@@ -128,8 +129,7 @@ public class Gestionnaire {
 		}
 	}
 	
-	// afficher details d'une commande 
-	
+	// afficher details d'une commande
 	public Commande rech_commande(int code)
 	{
 		for(Commande cd: Liste_Commandes.values()){
@@ -138,8 +138,9 @@ public class Gestionnaire {
 			}
 		}
 		return null;
-		
 	}
+
+
 	//cloturer une commande
 	public void sup_commande()
 	{
@@ -213,7 +214,6 @@ public class Gestionnaire {
 				return b;
 			}
 		});
-
        return max_ligne.getPlat();
 	}
 }

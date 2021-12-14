@@ -25,7 +25,7 @@ public class Plat {
 				{
 					this.ordre_inc+=1;
 					System.out.println(" code Plat : ");
-					this.code = sc.next();
+					this.code = sc.nextLine();
 					System.out.println(" Nom Plat : ");
 					this.nom = sc.nextLine();
 					System.out.println(" Prix Plat : ");
