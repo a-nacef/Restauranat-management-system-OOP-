@@ -15,8 +15,6 @@ public class Gestionnaire {
 	  public static HashMap<Integer, Commande> Liste_Commandes = new HashMap<Integer, Commande>();
 	  public static ArrayList<Table> liste_tables = new ArrayList<Table>();
 
-
-
 	  //Methodes
 		public static Plat rech_plat(String code) {
 			for (Plat p : liste_plat){
@@ -79,7 +77,7 @@ public class Gestionnaire {
 		}
 	}
 	// afficher liste des plats par categorie et ordonnee par refrence
-	public void listcatref()
+	public ArrayList<Plat> listcatref()
 	{
 		ArrayList<Plat> temp = new ArrayList<Plat>();
 		System.out.println("Saisir la catégorie à lister");
@@ -90,9 +88,7 @@ public class Gestionnaire {
 			}
 		}
 		temp.sort(Comparator.comparing(Plat::getCatégorie));
-		temp.forEach(p->{
-			System.out.println(p.toString());
-		});
+		return temp;
 	}
 
 	public Table rech_table(int code){
@@ -140,6 +136,14 @@ public class Gestionnaire {
 		return null;
 	}
 
+	public ArrayList<String> Description_commandes(){
+			ArrayList<String> result = new ArrayList<String>();
+			for (Commande c: Liste_Commandes.values()){
+				result.add(c.toString());
+			}
+			return result;
+	}
+
 
 	//cloturer une commande
 	public void sup_commande()
@@ -165,19 +169,19 @@ public class Gestionnaire {
 	
 	// afficher la recette journali�re durant une periode (date debut / date fin )
 	//puis le chiffre d'affaires de cette periode 
-	public double affiche_recette_dans_periode()
+	public double affiche_recette_dans_periode(String t1, String t2)
 	{
-		LocalTime t1;
-		LocalTime t2;
+		LocalTime T1;
+		LocalTime T2;
 		double result = 0;
 		do {
 			System.out.println("Saisir la borne inférieure:");
-			t1 = lire_temps();
+			T1 = lire_temps(t1);
 			System.out.println("Saisir la borne supérieure:");
-			t2 = lire_temps();
-		}while (!t1.isBefore(t2));
+			T2 = lire_temps(t2);
+		}while (!T1.isBefore(T2));
 		for(Commande cmd: Liste_Commandes.values()){
-			if (dans_intervalle(t1,t2,cmd.getHeure_commande())){
+			if (dans_intervalle(T1,T2,cmd.getHeure_commande())){
 				result += cmd.full_sum();
 			}
 		}
@@ -189,12 +193,10 @@ public class Gestionnaire {
 			return date.isAfter(t1) && date.isBefore(t2);
 	}
 
-	private LocalTime lire_temps(){
+	private LocalTime lire_temps(String time){
 		    DateTimeFormatter fmt;
-			String time;
 			System.out.println("Saisir l'heure dans le format HH:MM");
-			time = sc.nextLine();
-			return LocalTime.parse(time+":00", DateTimeFormatter.ISO_TIME);
+			return LocalTime.parse(time, DateTimeFormatter.ISO_TIME);
 	}
 
 

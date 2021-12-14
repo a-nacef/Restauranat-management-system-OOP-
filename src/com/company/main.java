@@ -7,5 +7,4 @@ public class main{
 	{
 		MainForm mf = new MainForm();
 	}
-
 }
