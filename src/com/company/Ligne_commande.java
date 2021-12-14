@@ -27,4 +27,12 @@ public class Ligne_commande {
 	{
 		return  this.plat.getPrix() * quantity;
 	}
+
+	@Override
+	public String toString() {
+		return "Ligne_commande{" +
+				"plat=" + plat +
+				", quantity=" + quantity +
+				'}';
+	}
 }

@@ -17,4 +17,11 @@ public class Table {
 	public void setReserve(boolean reserve) {
 		this.reserve = reserve;
 	}
+
+	@Override
+	public String toString() {
+		return "Table{" +
+				"id =" + this.id +
+				'}';
+	}
 }

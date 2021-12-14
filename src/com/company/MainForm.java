@@ -16,12 +16,12 @@ public class MainForm extends JFrame {
     private JButton showDailyStatsButton;
     private JTextArea textArea1;
     private JTextArea textArea2;
-    private JTextField textField1;
-    private JTextField textField2;
+    private JTextArea textField1;
+    private JTextArea textField2;
     private JButton calculerButton;
-    private JTextField textField3;
-    private JTextField textField4;
-    private JTextField resultatTextField;
+    private JTextArea textField3;
+    private JTextArea textField4;
+    private JTextArea resultatTextField;
 
 
     public MainForm(){
@@ -33,18 +33,30 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SubPanel.setSelectedIndex(1);
+                for(Commande c: Gestionnaire.Liste_Commandes.values()) {
+                    textArea2.append(c.toString()+"\n");
+                    textArea2.append("------------------------------------------------");
+                }
             }
         });
         managePlatesButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SubPanel.setSelectedIndex(0);
+                for (Plat p : Gestionnaire.liste_plat) {
+
+                    textArea1.append(p.toString());
+                    textArea1.append("---------------------------------------------------");
+                }
             }
         });
         showDailyStatsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SubPanel.setSelectedIndex(2);
+                textField1.append( Gestionnaire.plat_pref().toString());
+                textField2.append((String.valueOf(Gestionnaire.affiche_recette())));
+                resultatTextField.append(getWarningString().valueOf(Gestionnaire.affiche_recette_dans_periode(textField3.getText(), textField4.getText())));
             }
         });
         quitButton.addActionListener(new ActionListener() {

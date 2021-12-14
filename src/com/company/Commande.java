@@ -121,4 +121,19 @@ public class Commande {
 		 });
 		return temp;
 	}
+
+    @Override
+    public String toString() {
+          String result = null;
+          for (Ligne_commande lc: ltc){
+              result+=lc.toString();
+          }
+        return "Commande{" +
+                table.toString() +
+                ", date_commande=" + date_commande +
+                ", heure_commande=" + heure_commande +
+                ", mode_pay='" + mode_pay + '\'' +
+                ", qi_client=" + qi_client +
+                ", ltc=" +  result +'}';
+    }
 }

@@ -15,8 +15,8 @@ public class Gestionnaire {
 	  public static HashMap<Integer, Commande> Liste_Commandes = new HashMap<Integer, Commande>();
 	  public static ArrayList<Table> liste_tables = new ArrayList<Table>();
 
-	  //Methodes
-		public static Plat rech_plat(String code) {
+	  //Methodesg
+		public  Plat rech_plat(String code) {
 			for (Plat p : liste_plat){
 				if (p.getCode() == code) {
 				return p;
@@ -27,7 +27,7 @@ public class Gestionnaire {
 	 
 
 	//ajouter un plat
-	public static void ajout_p() {
+	public  void ajout_p() {
 		while(true) {
 			System.out.println("code plat?");
 			if(rech_plat(sc.next())== null)
@@ -47,7 +47,7 @@ public class Gestionnaire {
 						
 	
 	//modifier details plats 
-	public static void modify_p()
+	public  void modify_p()
 	{
 		Plat p;
 		int choix = 0;
@@ -156,7 +156,7 @@ public class Gestionnaire {
 	}
 	
 	// afficher la recette journali�re
-	public double affiche_recette()
+	public static double affiche_recette()
 	{
 		double result = 0;
 		for(Commande cmd: Liste_Commandes.values()){
@@ -169,7 +169,7 @@ public class Gestionnaire {
 	
 	// afficher la recette journali�re durant une periode (date debut / date fin )
 	//puis le chiffre d'affaires de cette periode 
-	public double affiche_recette_dans_periode(String t1, String t2)
+	public static double affiche_recette_dans_periode(String t1, String t2)
 	{
 		LocalTime T1;
 		LocalTime T2;
@@ -189,11 +189,11 @@ public class Gestionnaire {
 		
 	}
 
-	private boolean dans_intervalle(LocalTime t1, LocalTime t2, LocalTime date){
+	private static boolean dans_intervalle(LocalTime t1, LocalTime t2, LocalTime date){
 			return date.isAfter(t1) && date.isBefore(t2);
 	}
 
-	private LocalTime lire_temps(String time){
+	private static LocalTime lire_temps(String time){
 		    DateTimeFormatter fmt;
 			System.out.println("Saisir l'heure dans le format HH:MM");
 			return LocalTime.parse(time, DateTimeFormatter.ISO_TIME);
@@ -201,7 +201,7 @@ public class Gestionnaire {
 
 
 	//afficher le plat le plus command�
-	public Plat plat_pref()
+	public static Plat plat_pref()
 	{
 		ArrayList<Ligne_commande>  temp_lc = new ArrayList<Ligne_commande>();
 		Ligne_commande max_ligne;
