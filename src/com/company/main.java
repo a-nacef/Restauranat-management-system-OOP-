@@ -4,8 +4,8 @@ import jdk.jfr.internal.tool.Main;
 
 public class main{
 	public static void  main(String[] args)
-	{  
-			MainFrame mf = new MainFrame();
+	{
+		MainForm mf = new MainForm();
 	}
 
 }
