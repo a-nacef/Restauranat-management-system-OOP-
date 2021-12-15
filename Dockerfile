@@ -1,5 +1,4 @@
 FROM openjdk:latest
 WORKDIR /app
-COPY . /app
-RUN javac /app/src/com/company/main.java
-CMD ["java", "/app/src/com/compnay/main"]
+COPY . .
+CMD ["java","-jar", "out/artifacts/Projet_java_jar/Projet_java.jar"]
