@@ -4,12 +4,14 @@ public class Ligne_commande {
 	private Plat plat;
 	private int quantity;
 	
-    // constructeur 
+    // constructeur
+
 	public Ligne_commande(Plat plat , int quantity)
 	{    
 		this.plat = plat ;
 		this.quantity = quantity ;
 	}
+
 	// getters and setters
 	public Plat getPlat() {
 		return plat;
@@ -30,9 +32,9 @@ public class Ligne_commande {
 
 	@Override
 	public String toString() {
-		return "Ligne_commande{" +
+		return "\nLigne_commande{" +
 				"plat=" + plat +
 				", quantity=" + quantity +
-				'}';
+				'}'+'\n';
 	}
 }

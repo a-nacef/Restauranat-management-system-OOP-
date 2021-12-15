@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Commande {
 // attributs
-				private static Integer code ;
+				private static int code ;
 				private Table table;
 				private LocalDate date_commande ;
 				private LocalTime heure_commande ;
@@ -17,41 +17,47 @@ public class Commande {
 				private boolean qi_client ;
 				private ArrayList<Ligne_commande> ltc = new ArrayList<Ligne_commande>(); // arrayList store all the commands of a table 
  // constructeur
+	Scanner sc = new Scanner(System.in);
 	  public Commande(Table table, LocalDate date_commande, LocalTime heure_commande, String mode_pay)
 	  {
-          int nb;
-          Plat p;
-          int q;
-          Scanner sc = new Scanner(System.in);
-		code = code +1 ; // code incr
+		  String codeplat;
+          System.out.println("creation d'une commande  : ");
+		this.code = code +1 ; // code incr
 		this.table = table;
 		this.date_commande = date_commande;
 		this.heure_commande = heure_commande;
 		this.mode_pay = mode_pay;
 		this.qi_client = qi_client;
-
+		  int nb = 0;
+		  Plat p;
+		  int q =0;
 		//Créer les lignes commandes
-        System.out.println("Nombre de plats?:");
-        nb = sc.nextInt();
-          for (int i = 0; i < nb ; i++) {
-              System.out.println("Saisir le plat:");
-              p = new Plat();
-              System.out.println("Saisir la quantité");
-              q = sc.nextInt();
-              this.ltc.add(new Ligne_commande(p,q));
+        System.out.println("Nombre de lignes commande:");
+           nb = Integer.parseInt(sc.nextLine());
+          for (int i =0; i < nb ; i++) {
+			  while(true) {
+				  System.out.println("Saisir un code plat");
+					  codeplat = sc.nextLine();
+				  if (Gestionnaire.rech_plat(codeplat) == null) {
+					  System.out.println("Le plat n'existe pas");
+					  continue;
+				  }
+				  break;
+			  }
+              this.ltc.add(new Ligne_commande(Gestionnaire.rech_plat(codeplat),getplatequantity()));
           }
 	  }
 
-
-
+	  public int getplatequantity(){
+		  System.out.println("Quantité?");
+		   return Integer.parseInt(sc.nextLine());
+	  }
 //getters and setterss
 	public static int getCode() {
 		return code;
 	}
 
-	public static void setCode(int code) {
-		Commande.code = code;
-	}
+
 
 	public Table getTable() {
 		return table;
@@ -128,12 +134,11 @@ public class Commande {
           for (Ligne_commande lc: ltc){
               result+=lc.toString();
           }
-        return "Commande{" +
-                table.toString() +
-                ", date_commande=" + date_commande +
-                ", heure_commande=" + heure_commande +
-                ", mode_pay='" + mode_pay + '\'' +
-                ", qi_client=" + qi_client +
-                ", ltc=" +  result +'}';
+        return "Commande{\n" +
+                "\n date_commande=" + date_commande +
+                "\n heure_commande=" + heure_commande +
+                "\n mode_pay='" + mode_pay + '\'' +
+                "\n qi_client=" + qi_client +
+                "\n ltc=" +  result+"}\n";
     }
 }

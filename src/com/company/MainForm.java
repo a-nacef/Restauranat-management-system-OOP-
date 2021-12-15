@@ -1,6 +1,7 @@
 package com.company;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,8 +24,8 @@ public class MainForm extends JFrame {
     private JTextArea textField4;
     private JTextArea resultatTextField;
 
-
     public MainForm(){
+        Font font = new Font("Verdana", Font.BOLD, 12);
         setContentPane(MainPanel);
         setVisible(true);
         setSize(800,800);
@@ -32,37 +33,53 @@ public class MainForm extends JFrame {
         manageCommandsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                textArea2.setFont(font);
                 SubPanel.setSelectedIndex(1);
-                for(Commande c: Gestionnaire.Liste_Commandes.values()) {
-                    textArea2.append(c.toString()+"\n");
-                    textArea2.append("------------------------------------------------");
+                if(textArea2.getText().equals("")) {
+                    for (Commande c : Gestionnaire.Liste_Commandes.values()) {
+                        textArea2.append(c.toString() + "\n");
+                        textArea2.append("\n------------------------------------------------\n");
+                    }
                 }
             }
         });
         managePlatesButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                textArea1.setFont(font);
                 SubPanel.setSelectedIndex(0);
-                for (Plat p : Gestionnaire.liste_plat) {
-
-                    textArea1.append(p.toString());
-                    textArea1.append("---------------------------------------------------");
+                if(textArea1.getText().equals("")) {
+                    for (Plat p : Gestionnaire.liste_plat) {
+                        textArea1.append(p.toString());
+                        textArea1.append("\n---------------------------------------------------\n");
+                    }
                 }
             }
         });
         showDailyStatsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                textField1.setFont(font);
+                resultatTextField.setFont(font);
                 SubPanel.setSelectedIndex(2);
-                textField1.append( Gestionnaire.plat_pref().toString());
-                textField2.append((String.valueOf(Gestionnaire.affiche_recette())));
-                resultatTextField.append(getWarningString().valueOf(Gestionnaire.affiche_recette_dans_periode(textField3.getText(), textField4.getText())));
+                if(textField1.getText().equals("") && textField2.getText().equals("")) {
+                    textField1.append(Gestionnaire.plat_pref().toString());
+                    textField2.append((String.valueOf(Gestionnaire.affiche_recette())));
+                }
             }
         });
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
+            }
+        });
+        calculerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!(textField3.getText().equals("") || textField4.getText().equals(""))){
+                    resultatTextField.append(String.valueOf(Gestionnaire.affiche_recette_dans_periode(textField3.getText(), textField4.getText())));
+                }
             }
         });
     }

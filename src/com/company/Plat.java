@@ -5,39 +5,39 @@ public class Plat {
 	
      static Scanner sc = new Scanner(System.in);
 	// les attributs 
-	  			private static int ordre_inc ;
+	  			private static int ref ;
 				private String code ;
 				private String nom ;
-				private String catégorie;
+				private String categorie;
 				private double prix ;
 	//le constructeur para
-	public Plat(String code, String nom, double prix, String catégorie) {
-				    this.ordre_inc += 1 ;
+	public Plat(String code, String nom, double prix, String categorie) {
+				    this.ref += 1 ;
 					this.code = code;
 					this.nom = nom;
 					this.prix = prix;
-					this.catégorie = catégorie;
+					this.categorie = categorie;
 				}
 
 	// le constructeur non-para
 				// for testing 
 				public Plat()
 				{
-					this.ordre_inc+=1;
-					System.out.println(" code Plat : ");
+					this.ref+=1;
+					System.out.println("code Plat : ");
 					this.code = sc.nextLine();
-					System.out.println(" Nom Plat : ");
+					System.out.println("Nom Plat : ");
 					this.nom = sc.nextLine();
-					System.out.println(" Prix Plat : ");
-					this.prix = sc.nextDouble();
-					System.out.println(" Catégorie Plat : ");
-					this.catégorie = sc.nextLine();
+					System.out.println("Catégorie Plat : ");
+					this.categorie = sc.nextLine();
+					System.out.println("Prix Plat : X.Y");
+					this.prix = Double.parseDouble(sc.nextLine());
 				}
 
 				// getters / setters
-				public int getOrdre_inc()
+				public int getRef()
 				{
-					return  ordre_inc;
+					return  this.ref;
 				}
 				public String getCode() {
 					return code;
@@ -55,12 +55,12 @@ public class Plat {
 					this.nom = nom;
 					return this ;
 				}
-				public String getCatégorie() {
-					return catégorie;
+				public String getCategorie() {
+					return categorie;
 				}
 
-				public void setCatégorie(String catégorie) {
-						this.catégorie = catégorie;
+				public void setCategorie(String categorie) {
+						this.categorie = categorie;
 				}
 
 
@@ -75,7 +75,7 @@ public class Plat {
 	//ToString
 				@Override
 				public String toString() {
-					return "Plat [code=" + code + ", nom=" + nom + ", prix=" + prix + "]";
+					return "Plat{\n code=" + code + "\n nom=" + nom + "\n prix=" + prix + "}";
 				}
 
 }

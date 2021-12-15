@@ -29,7 +29,7 @@
             <children>
               <vspacer id="77cd8">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                 </constraints>
               </vspacer>
               <component id="bbdb3" class="javax.swing.JLabel">
@@ -40,7 +40,7 @@
                   <text value="Liste des plats"/>
                 </properties>
               </component>
-              <component id="66c1" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
+              <component id="6dab5" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="50"/>
@@ -106,7 +106,7 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <text value=""/>
+                  <text value="" noi18n="true"/>
                 </properties>
               </component>
               <component id="bfd6a" class="javax.swing.JLabel">

@@ -1,13 +1,12 @@
 package com.company;
-
-import javafx.scene.control.Tab;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Gestionnaire {
+
+
 
 	//Attributs
 	  static Scanner sc = new Scanner(System.in);
@@ -16,9 +15,9 @@ public class Gestionnaire {
 	  public static ArrayList<Table> liste_tables = new ArrayList<Table>();
 
 	  //Methodesg
-		public  Plat rech_plat(String code) {
+		public static Plat rech_plat(String code) {
 			for (Plat p : liste_plat){
-				if (p.getCode() == code) {
+				if (p.getCode().compareToIgnoreCase(code) == 0) {
 				return p;
 				}
 		}
@@ -28,11 +27,11 @@ public class Gestionnaire {
 
 	//ajouter un plat
 	public  void ajout_p() {
+
 		while(true) {
-			System.out.println("code plat?");
-			if(rech_plat(sc.next())== null)
-			{
-				liste_plat.add(new Plat());
+				Plat p = (new Plat());
+				if(rech_plat(p.getCode())==null){
+					liste_plat.add(p);
 				System.out.println("Plat ajouté.");
 				break;
 			}
@@ -51,24 +50,30 @@ public class Gestionnaire {
 	{
 		Plat p;
 		int choix = 0;
-		boolean changed = false;
+        boolean changed = false ;
 		Scanner sc = new Scanner(System.in);
+
 		System.out.println("Veuillez entrer le code du plat à changer:");
-		p = rech_plat(sc.nextLine());
+		p = rech_plat(sc.next());
+
 		if(p!=null){
 			while(!changed) {
 				System.out.println("Saisir l'attribut à modifier: \n 1.Prix \n 2.Code \n 3.Nom\n");
 				choix = sc.nextInt();
 				switch (choix) {
 					case 1:
-						p.setPrix(sc.nextDouble());
+						System.out.println("prix ? ");
+						p.setPrix(sc.nextDouble()); System.out.println("prix changé avec succes ! ");
 						changed = true;
+						break;
 					case 2:
-						p.setCode(sc.nextLine());
-						changed = true;
+						System.out.println("code ? ");
+						p.setCode(sc.next());System.out.println("code changé avec succes ! ");changed = true ;
+						break;
 					case 3:
-						p.setNom(sc.nextLine());
-						changed = true;
+						System.out.println("nom ? ");
+						p.setNom(sc.next());System.out.println("NOM  changé avec succes ! ");changed = true ;
+						 break;
 					default:
 						System.out.println("Saisir un choix valide");
 						continue;
@@ -76,21 +81,28 @@ public class Gestionnaire {
 			}
 		}
 	}
+	/*************************************************************************************************************/
+
 	// afficher liste des plats par categorie et ordonnee par refrence
+
 	public ArrayList<Plat> listcatref()
 	{
 		ArrayList<Plat> temp = new ArrayList<Plat>();
 		System.out.println("Saisir la catégorie à lister");
-		String cat = sc.nextLine();
+		String cat = sc.next();
+
 		for(Plat p: liste_plat){
-			if (p.getCatégorie()==cat){
+			if (p.getCategorie().compareToIgnoreCase(cat) == 0){
 				temp.add(p);
 			}
 		}
-		temp.sort(Comparator.comparing(Plat::getCatégorie));
+		//Trier par ref
+		temp.sort(Comparator.comparing(Plat::getRef));
+		System.out.println(temp); // show the list
 		return temp;
 	}
-
+   /*****************************************************************************************************************/
+// check if the table is available or not
 	public Table rech_table(int code){
 			for (Table t: liste_tables){
 				if (t.getId() == code){
@@ -103,37 +115,47 @@ public class Gestionnaire {
 	//creer une commande 
 	public void ajout_commande()
 	{
-		Integer cd;
+		int  cd;
 		String mode;
-		Commande temp_cmd;
 		Table tb;
 		System.out.println("Code Table?");
+
 		cd = sc.nextInt();
 		tb = rech_table(cd);
+
 		System.out.println("Mode paiement?");
-		mode = sc.nextLine();
-		tb.setReserve(true);
+		mode = sc.next();
+
+		if(tb != null)
+			tb.setReserve(true); // change the table to reserved automatically when we add the command
+
 		if (Liste_Commandes.containsKey(cd)){
-			temp_cmd = new Commande(tb, LocalDate.now(), LocalTime.now(), mode);
-			Liste_Commandes.put(cd, temp_cmd);
+			Liste_Commandes.put(cd,new Commande(tb, LocalDate.now(), LocalTime.now(), mode));
+			System.out.println(Liste_Commandes.containsKey(cd));
 		}
 		else{
-			liste_tables.add(new Table());
-			cd = liste_tables.get(liste_tables.size()).getId();
-			temp_cmd = new Commande(tb, LocalDate.now(), LocalTime.now(), mode);
-			Liste_Commandes.put(cd,temp_cmd);
+			liste_tables.add(new Table(cd)); /* add a table */
+			cd = liste_tables.get(liste_tables.size()-1).getId();
+			Liste_Commandes.put(cd,new Commande(tb, LocalDate.now(), LocalTime.now(), mode));
+			System.out.println("commande ajoutee avec succes ! ");
 		}
 	}
-	
+
 	// afficher details d'une commande
 	public Commande rech_commande(int code)
 	{
-		for(Commande cd: Liste_Commandes.values()){
-			if (code==cd.getCode()){
-				return cd;
+		if(  ! Liste_Commandes.isEmpty()) {
+			for (Commande cd : Liste_Commandes.values()) {
+				if (code == cd.getCode()) {
+					return cd;
+				}
 			}
+			return null ;
 		}
-		return null;
+		else {
+			return null;
+		}
+
 	}
 
 	public ArrayList<String> Description_commandes(){
@@ -151,8 +173,15 @@ public class Gestionnaire {
 		int code;
 		System.out.println("Saisir le code de la table");
 		code = sc.nextInt();
-		Liste_Commandes.remove(code);
-		rech_table(code).setReserve(false);
+		System.out.println(liste_tables.isEmpty());
+		for(Table t: liste_tables){
+			System.out.println(t.getId());
+			if (t.getId() == code){
+				t.setReserve(false);
+				Liste_Commandes.remove(code);
+				System.out.println("Remove succesful");
+			}
+		}
 	}
 	
 	// afficher la recette journali�re
@@ -175,9 +204,7 @@ public class Gestionnaire {
 		LocalTime T2;
 		double result = 0;
 		do {
-			System.out.println("Saisir la borne inférieure:");
 			T1 = lire_temps(t1);
-			System.out.println("Saisir la borne supérieure:");
 			T2 = lire_temps(t2);
 		}while (!T1.isBefore(T2));
 		for(Commande cmd: Liste_Commandes.values()){
@@ -195,7 +222,6 @@ public class Gestionnaire {
 
 	private static LocalTime lire_temps(String time){
 		    DateTimeFormatter fmt;
-			System.out.println("Saisir l'heure dans le format HH:MM");
 			return LocalTime.parse(time, DateTimeFormatter.ISO_TIME);
 	}
 
@@ -203,19 +229,16 @@ public class Gestionnaire {
 	//afficher le plat le plus command�
 	public static Plat plat_pref()
 	{
-		ArrayList<Ligne_commande>  temp_lc = new ArrayList<Ligne_commande>();
-		Ligne_commande max_ligne;
-		for (Commande temp: Liste_Commandes.values()){
-			temp_lc.add(temp.max_plat());
+		Plat p = null;
+		int q = 0;
+		Ligne_commande temp = new Ligne_commande(p,q);
+		for (Commande c: Liste_Commandes.values()){
+			for(Ligne_commande lc: c.getLtc()){
+				if(lc.getQuantity()>temp.getQuantity()){
+					temp = lc;
+				}
+			}
 		}
-		max_ligne = temp_lc.stream().reduce(null,(a, b)->{
-			if (a.getQuantity()>=b.getQuantity()){
-				return a;
-			}
-			else{
-				return b;
-			}
-		});
-       return max_ligne.getPlat();
+		return temp.getPlat();
 	}
 }
